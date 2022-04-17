@@ -318,6 +318,11 @@ func (f *Frontend) setupChromium() {
 	if opts := f.frontendOptions.Windows; opts != nil && opts.WebviewUserDataPath != "" {
 		chromium.DataPath = opts.WebviewUserDataPath
 	}
+
+	if f.frontendOptions.Windows != nil {
+		chromium.AdditionalBrowserArguments = f.frontendOptions.Windows.AdditionalBrowserArguments
+	}
+
 	chromium.MessageCallback = f.processMessage
 	chromium.WebResourceRequestedCallback = f.processRequest
 	chromium.NavigationCompletedCallback = f.navigationCompleted

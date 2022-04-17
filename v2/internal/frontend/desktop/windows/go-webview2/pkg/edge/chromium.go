@@ -29,6 +29,9 @@ type Chromium struct {
 
 	environment *ICoreWebView2Environment
 
+	// Environment Options
+	AdditionalBrowserArguments string
+
 	// Settings
 	Debug    bool
 	DataPath string
@@ -84,7 +87,14 @@ func (e *Chromium) Embed(hwnd uintptr) bool {
 		dataPath = filepath.Join(os.Getenv("AppData"), currentExeName)
 	}
 
-	res, err := createCoreWebView2EnvironmentWithOptions(nil, windows.StringToUTF16Ptr(dataPath), 0, e.envCompleted)
+	options := &ICoreWebView2EnvironmentOptions{vtbl: &ICoreWebView2EnvironmentOptionsVtbl{}}
+
+	if err := options.PutAdditionalBrowserArguments(e.AdditionalBrowserArguments); err != nil {
+		log.Printf("Error calling PutAdditionalBrowserArguments: %v", err)
+		return false
+	}
+
+	res, err := createCoreWebView2EnvironmentWithOptions(nil, windows.StringToUTF16Ptr(dataPath), uintptr(unsafe.Pointer(options)), e.envCompleted)
 	if err != nil {
 		log.Printf("Error calling Webview2Loader: %v", err)
 		return false

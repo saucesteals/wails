@@ -632,6 +632,7 @@ func NewWindow(appoptions *options.App, debug bool) *Window {
 
 	webview := C.setupWebview(result.contentManager, result.asGTKWindow(), bool2Cint(appoptions.HideWindowOnClose))
 	result.webview = unsafe.Pointer(webview)
+
 	buttonPressedName := C.CString("button-press-event")
 	defer C.free(unsafe.Pointer(buttonPressedName))
 	C.connectButtons(unsafe.Pointer(webview))

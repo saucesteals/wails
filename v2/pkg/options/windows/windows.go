@@ -53,6 +53,9 @@ type Options struct {
 	WindowIsTranslucent  bool
 	DisableWindowIcon    bool
 
+	// TODO: Docs
+	AdditionalBrowserArguments string
+
 	// Disable all window decorations in Frameless mode, which means no "Aero Shadow" and no "Rounded Corner" will be shown.
 	// "Rounded Corners" are only available on Windows 11.
 	DisableFramelessWindowDecorations bool
